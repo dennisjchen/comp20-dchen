@@ -9,30 +9,30 @@
     var request = new XMLHttpRequest();
 
     function initialize() {
-        try {
-            request.open("GET", "http://messagehub.herokuapp.com/lab8.json", true);
-            request.send(null);
-            request.onreadystatechange = callback;
-        }
-        catch (someError){
-            alert("Whoops, exception caught!");
-        }
-
+        request.open("GET", "http://messagehub.herokuapp.com/lab8.json", true);
+        request.setRequestHeader("Content-type", "text/plain")
+        request.send(null);
+        request.onreadystatechange = callback;
     }
 
     function callback() {
-        console.log("readyState is " + request.readyState);
-        console.log("status code is " + request.status);
-        if (request.readyState = 4 && request.status == 200)
-            parse(request.responseText);
-        else if (request.status == 0){
-            document.write("Cannot load http://messagehub.herokuapp.com/lab8.json. Origin null is not allowed by Access-Control-Allow-Origin.")
-            alert("Oh no! Page cannot be loaded");
+        try {
+            if (request.readyState = 4 && request.status == 200) {
+                parse();
+            }
+            else if (request.status == 0 ){
+                document.write("Cannot load http://messagehub.herokuapp.com/lab8.json. Origin null is not allowed by Access-Control-Allow-Origin.");
+                alert("Oh no! Page cannot be loaded. Status: " + request.status);
+            }
         }
+        catch (someError){
+            document.write("Warning: Exception caught. Status code: " + request.status + "<br>");
+        }
+
     }
 
-    function parse(str) {
-            parsed = JSON.parse(str);
+    function parse() {
+            parsed = JSON.parse(request.responseText);
             companies = document.getElementById("list");
             for(var i = 0; i < parsed.length; i++) {
                 node = document.createElement("label");
