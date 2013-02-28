@@ -1,23 +1,21 @@
-
 <!DOCTYPE html>
 
 <html>
 
 <head>
-<title>Friends of Ming Chow Jobs Listing</title>
 <script>
     var request = new XMLHttpRequest();
 
-    function initialize() {
+    function init() {
         request.open("GET", "http://messagehub.herokuapp.com/lab8.json", true);
-        request.setRequestHeader("Content-type", "text/plain")
         request.send(null);
         request.onreadystatechange = callback;
     }
 
+    // Handle the request
     function callback() {
-        try {
-            if (request.readyState = 4 && request.status == 200) {
+        try{
+            if (request.readyState == 4 && request.status == 200) {
                 parse();
             }
             else if (request.status == 0 ){
@@ -28,13 +26,13 @@
         catch (someError){
             document.write("Warning: Exception caught. Status code: " + request.status + "<br>");
         }
-
     }
 
-    function parse() {
-            parsed = JSON.parse(request.responseText);
+   function parse() {
+            str = request.responseText;
+            parsed = JSON.parse(str);
             companies = document.getElementById("list");
-            for(var i = 0; i < parsed.length; i++) {
+            for(var i = 0; i < parsed.length; i++){
                 node = document.createElement("label");
                 node.innerHTML = "Company: " + parsed[i].company + "<br>" + "Location: " + parsed[i].location + "<br>" + "Position: " + parsed[i].position + "<br>" + "<br>";
                 companies.appendChild(node);
@@ -43,7 +41,7 @@
 </script>
 </head>
 
-<body onload="initialize()">
+<body onload="init()">
 <div id="list"></div>
 </body>
 
