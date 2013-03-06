@@ -13,6 +13,12 @@ p {
     font-weight: bold;
 }
 
+#the_distances {
+    width = 100%; 
+    height = 20px;
+    text-align:center;
+}
+
 #map_canvas {
     width: 100%;
     height: 100%;
