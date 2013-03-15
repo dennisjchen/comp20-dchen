@@ -15,11 +15,16 @@
             var t = h + ":" + m;
             var fullDate = d + " " + t + " - ";
             var update = document.getElementById("msg").value;
-            var para = document.createElement("p");
-            var node = document.createTextNode(fullDate + update);
-            para.appendChild(node);
-            var element = document.getElementById("status");
-            element.insertBefore(para, element.childNodes[0]);
+            localStorage[new Date().getTime()] = fullDate + update;
+            reload();
+        }
+        function reload(){
+            elem = document.getElementById("status");
+            output = "";
+            for (key in localStorage){
+                output = "<p>" + localStorage[key] + "</p>\n" + output;
+            }
+            elem.innerHTML = output;
         }
     </script>
 </head>
