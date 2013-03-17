@@ -32,6 +32,7 @@ function initialize(){
     lilypad = new Image();
     sprite.src = "assets/frogger_sprites.png";
     lilypad.src = "assets/lilypad.png";
+    drawBoard();
     sprite.onload = function() {
         var delay = 50;
         intervalID = setInterval(gameLoop, delay);
@@ -210,13 +211,13 @@ function checkCollision(){
     for(n in cars){
         if(xFrog+frogW >= cars[n].initX && xFrog <= cars[n].initX+cars[n].imageWidth){
             if(yFrog+frogH >= cars[n].initY && yFrog <= cars[n].initY+cars[n].imageHeight){
-                collideDIE();
+                //collideDIE();
                 break;
             }
         }
     }
     if(yFrog < 253.4 && !onLog){
-        collideDIE();
+        //collideDIE();
     }
 }
 
@@ -233,6 +234,8 @@ function collidePAD(){
 }
 
 function levelUp(){
+    var levelSound = new Audio("assets/dp_frogger_coin.wav");
+    levelSound.play();
     numLevel = numLevel + 1;
     successfulPads = 0;
     score = score + 1000;
@@ -256,6 +259,8 @@ function collideDIE(){
     if(numLives == 0){
         isOver = true;
     }
+    var deathSound = new Audio("assets/dp_frogger_squash.wav");
+    deathSound.play();
     xFrog = 190;
     yFrog = 490;
 }
