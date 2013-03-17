@@ -24,18 +24,29 @@ function start_game() {
 
 //Initializes all the global variables
 function initialize(){
-    xFrog = 190;
-    yFrog = 488;
-    numLives = 3;
-    numLevel = 1;
-    score = 0; highscore = 0;
-    time = 100;
-    isOver = false;
-    vSpeed = 1;
+    xFrog = 190; yFrog = 490; frogSpeed = 0;
+    successfulPads = 0;
+    numLevel = 1; score = 0;
+    time = 100; isOver = false; vSpeed = 1;
     vLoc = 10;
     lSpeed = 1;
     logLoc = 10;
+    for(var i = 0;i < 5; i++){
+        drawSuccess[i] = false;
+    }
+    createSpriteLocations();
+    canvas = document.getElementById('game');
+    ctx = canvas.getContext("2d");
+    sprite = new Image();
+    lilypad = new Image();
+    sprite.src = "assets/frogger_sprites.png";
+    lilypad.src = "assets/lilypad.png";
+    sprite.onload = function() {
+        var delay = 50;
+        intervalID = setInterval(gameLoop, delay);
+    }
 }
+
 //Draws the board, which will go on to call draw functions for stats and frogger itself
 function drawBoard() {
     canvas = document.getElementById('game');
