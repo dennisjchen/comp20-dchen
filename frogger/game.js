@@ -67,13 +67,12 @@ function drawBoard() {
 function drawStats() {
     ctx.font = "22px Helvetica";
     ctx.fillStyle = "#8AFB17";
-    ctx.fillText("Level " + numLevel, 61, 530);
+    ctx.fillText("Level " + numLevel, 61, 535);
     for(var i = 0; i < numLives; i++){ //Draws # frogs based on lives left
-        ctx.drawImage(sprite, 12, 330, 18, 26, 6+i*19, 512, 14, 16);
+        ctx.drawImage(sprite, 12, 330, 18, 26, 6+i*19, 517, 14, 16);
     }
     ctx.font = "12px Helvetica";
-    ctx.fillText("Score: " + score, 9, 546);
-    ctx.fillText("Highscore: " + highscore, 81, 546);
+    ctx.fillText("Score: " + score, 9, 551);
 }
 //Draws frogger
 function drawFrogger(){
