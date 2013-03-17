@@ -74,6 +74,25 @@ function drawStats() {
     ctx.font = "12px Helvetica";
     ctx.fillText("Score: " + score, 9, 551);
 }
+
+function createSpriteLocations(){
+    increment = 33.8;
+    logs[0] = {"imageWidth":86, "imageHeight":23, "initX":8, "initY":250-(0*increment), "speed":Math.floor((Math.random()*4)+1)+1};
+    logs[1] = {"imageWidth":177, "imageHeight":23, "initX":35, "initY":250-(1*increment), "speed":(-1)*Math.floor((Math.random()*5)+1)-1};
+    logs[2] = {"imageWidth":86, "imageHeight":23, "initX":100, "initY":250-(2*increment), "speed":Math.floor((Math.random()*4)+1)+1};
+    logs[3] = {"imageWidth":177, "imageHeight":23, "initX":50, "initY":250-(3*increment), "speed":(-1)*Math.floor((Math.random()*4)+1)-1};
+    logs[4] = {"imageWidth":86, "imageHeight":23, "initX":20, "initY":250-(4*increment), "speed":Math.floor((Math.random()*4)+1)+1};
+    cars[0] = {"imageWidth":25, "imageHeight":23, "initX":4, "initY":454-(0*increment), "speed":Math.floor((Math.random()*6)+1)+1};
+    cars[1] = {"imageWidth":28, "imageHeight":23, "initX":4, "initY":454-(1*increment), "speed":(-1)*Math.floor((Math.random()*6)+1)-1};
+    cars[2] = {"imageWidth":25, "imageHeight":23, "initX":4, "initY":454-(2*increment), "speed":Math.floor((Math.random()*6)+1)+1};
+    cars[3] = {"imageWidth":28, "imageHeight":23, "initX":4, "initY":454-(3*increment), "speed":(-1)*Math.floor((Math.random()*6)+1)-1};
+    cars[4] = {"imageWidth":25, "imageHeight":23, "initX":4, "initY":454-(4*increment), "speed":Math.floor((Math.random()*6)+1)+1};
+    for (var i = 0; i < 5; i++){
+        pads[i] = {"imageWidth":22, "imageHeight":18, "initX":16, "initY": 84.4};
+        pads[i].initX = pads[i].initX + (i*44);
+    }
+}
+
 //Draws frogger
 function drawFrogger(){
         ctx.drawImage(sprite, 13, 371, 22, 16, xStart, yStart, 22, 16); //Draws Frogger based on starting coordinates
