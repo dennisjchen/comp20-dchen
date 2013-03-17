@@ -122,6 +122,40 @@ function createSpriteLocations(){
     }
 }
 
+function checkCollision(){
+    frogSpeed = 0;
+    var onLog = false;
+    for(n in pads){
+        if(xFrog+frogW >= pads[n].initX+n*44 && xFrog <= pads[n].initX+n*44+pads[n].imageWidth){
+            if(yFrog+frogH >= pads[n].initY && yFrog <= pads[n].initY+pads[n].imageHeight){
+                drawSuccess[n] = true;
+                collidePAD();
+                break;
+            }
+        }
+    }
+    for(n in logs){
+        if(xFrog+frogW >= logs[n].initX && xFrog <= logs[n].initX+logs[n].imageWidth){
+            if(yFrog+frogH >= logs[n].initY && yFrog <= logs[n].initY+logs[n].imageHeight){
+                onLog = true;
+                frogSpeed = logs[n].speed;
+                break;
+            }
+        }
+    }
+    for(n in cars){
+        if(xFrog+frogW >= cars[n].initX && xFrog <= cars[n].initX+cars[n].imageWidth){
+            if(yFrog+frogH >= cars[n].initY && yFrog <= cars[n].initY+cars[n].imageHeight){
+                collideDIE();
+                break;
+            }
+        }
+    }
+    if(yFrog < 253.4 && !onLog){
+        collideDIE();
+    }
+}
+
 //Draws frogger
 function drawFrogger(){
         ctx.drawImage(sprite, 13, 371, 22, 16, xStart, yStart, 22, 16); //Draws Frogger based on starting coordinates
