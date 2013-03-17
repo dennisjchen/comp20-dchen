@@ -57,25 +57,35 @@ function gameLoop() {
 
 //Draws the board, which will go on to call draw functions for stats and frogger itself
 function drawBoard() {
-    canvas = document.getElementById('game');
     if(canvas.getContext) {
-        ctx = canvas.getContext("2d");
         ctx.fillStyle = "#191970";
-        ctx.fillRect(6, 6, 386, 271); //Draw water
+        ctx.fillRect(0, 0, 400, 277); //Draw water
         ctx.fillStyle = "#000000";
-        ctx.fillRect(6, 310, 386, 243); //Draw road
-        sprite = new Image();
-        sprite.src = "assets/frogger_sprites.png";
-        sprite.onload = function() {
-            ctx.drawImage(sprite, 1 ,119 ,390, 34, 6, 277, 386, 34);
-            ctx.drawImage(sprite, 1 ,119 ,390, 36, 6, 480, 386, 36); //Draw purple roads
-            ctx.drawImage(sprite, 13, 12, 321, 31, 19, 16, 321, 31); //Frogger header
-            ctx.drawImage(sprite, 0 ,55 ,390, 53, 6, 60, 386, 53); //Green grass
-            ctx.drawImage(sprite, 8 ,166 ,177, 22, 40, 160, 177, 22); //Log
-            ctx.drawImage(sprite, 10, 267, 28, 20, 50, 400, 28, 20); //Pink car
-            ctx.drawImage(sprite, 108, 303, 44, 18, 160, 340, 44, 18); //white truck
-            drawStats();
-            drawFrogger();
+        ctx.fillRect(0, 310, 400, 255); //Draw road
+        ctx.drawImage(sprite, 1 ,119 ,390, 34, 0, 277, 400, 34);
+        ctx.drawImage(sprite, 1 ,119 ,390, 36, 0, 480, 400, 36); //Draw purple roads
+        ctx.drawImage(sprite, 13, 12, 321, 31, 14, 16, 321, 31); //Frogger header
+        ctx.drawImage(sprite, 0 ,55 ,390, 53, 0, 60, 400, 53); //Green grass
+        for(n in pads){
+            ctx.drawImage(lilypad, 0, 0, 500, 432, pads[n].initX+(n*44), pads[n].initY, pads[n].imageWidth, pads[n].imageHeight);
+        }
+        for (n in logs){
+            if(n == 1 || n == 3){
+                ctx.drawImage(sprite, 8, 166 ,177, 22, logs[n].initX, logs[n].initY, 177,22);
+                ctx.drawImage(sprite, 10, 267, 28, 20, cars[n].initX, cars[n].initY, 28,20);
+            }
+            else{
+                ctx.drawImage(sprite, 6, 229, 86, 23, logs[n].initX, logs[n].initY, 86,23);
+                ctx.drawImage(sprite, 9, 300, 25, 23, cars[n].initX, cars[n].initY, 25,23);
+            }
+            
+        }
+        drawStats();
+        drawFrogger();
+        for(n in drawSuccess){
+            if(drawSuccess[n]){
+                ctx.drawImage(sprite, 13, 371, 22, 18, pads[n].initX+(n*44), pads[n].initY, 22, 18);
+            }
         }
     }
     else {
