@@ -4,9 +4,8 @@ var numLives = 3;
 var numLevel;
 var score;
 var time; var successfulPads;
+var timer;
 var isOver;
-var vSpeed;
-var vLoc; var logSpeed; var logLoc;
 var sprite; var lilypad;
 var canvas; var ctx;
 var intervalID;
@@ -15,16 +14,15 @@ var cars = new Array();
 var pads = new Array();
 var drawSuccess = new Array();
 var farthestDistance = 490;
+var sound = new Audio();
 
 //Initializes all the global variables
 function initialize(){
     xFrog = 190; yFrog = 490; frogSpeed = 0;
     successfulPads = 0;
+    timer = 0;
     numLevel = 1; score = 0;
-    time = 100; isOver = false; vSpeed = 1;
-    vLoc = 10;
-    lSpeed = 1;
-    logLoc = 10;
+    time = 100; isOver = false;
     for(var i = 0;i < 5; i++){
         drawSuccess[i] = false;
     }
@@ -42,6 +40,7 @@ function initialize(){
 }
 
 function gameLoop() {
+    timer += 50;
     if(isOver){
         clearInterval(intervalID);
     }
@@ -156,10 +155,9 @@ function drawStats() {
     ctx.font = "12px Helvetica";
     ctx.fillText("Score: " + score, 9, 551);
 }
-
 //Draws frogger
 function drawFrogger(){
-        ctx.drawImage(sprite, 13, 371, 22, 16, xStart, yStart, 22, 16); //Draws Frogger based on starting coordinates
+    ctx.drawImage(sprite, 13, 371, 22, 18, xFrog, yFrog, 22, 18); //Draws Frogger based on starting coordinates
 }
 
 function createSpriteLocations(){
@@ -214,6 +212,18 @@ function checkCollision(){
     }
 }
 
+function collidePAD(){
+    var timeScore = (60000-timer)/100;
+    score = score + 50 + timeScore;
+    successfulPads = successfulPads + 1;
+    if(successfulPads == 5){
+        levelUp();
+    }
+    xFrog = 190;
+    yFrog = 490;
+    timer = 0;
+}
+
 function levelUp(){
     numLevel = numLevel + 1;
     successfulPads = 0;
@@ -231,16 +241,6 @@ function levelUp(){
     for(var n = 0; n < 5; n++){
         drawSuccess[n] = false;
     }
-}
-
-function collidePAD(){
-    score = score + 50;
-    successfulPads = successfulPads + 1;
-    if(successfulPads == 5){
-        levelUp();
-    }
-    xFrog = 190;
-    yFrog = 490;
 }
 
 function collideDIE(){
