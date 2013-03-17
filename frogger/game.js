@@ -46,10 +46,11 @@ function initialize(){
     drawBoard();
     sprite.onload = function() {
         var delay = 50;
-        intervalID = setInterval(gameLoop, delay);
+        intervalID = setInterval(gameLoop, delay); //calls and continues game loop
     }
 }
 
+//The loop that runs constantly until game is over
 function gameLoop() {
     timer += 50;
     if(isOver){
@@ -61,10 +62,11 @@ function gameLoop() {
     if(isOver){
         ctx.font = "60px Helvetica";
         ctx.fillStyle = "#FFFFFF";
-        ctx.fillText("GAME OVER ", 20, 300);
+        ctx.fillText("GAME OVER ", 20, 300); //Prints game is over to screen
     }
 }
 
+//Updates all objects and also calls check for collision
 function update(){
     xFrog += frogSpeed;
     for(n in logs){
@@ -92,11 +94,13 @@ function update(){
     checkCollision();
 }
 
+//Plays the hop sound (will interrupt if pressed continually)
 function soundHop(){
     var hopSound = new Audio("assets/dp_frogger_hop.wav");
     hopSound.play();
 }
 
+//Looks for user input on keys and updates frogger position while playing sound
 function moveFrog(e){
     var keyCode = e.keyCode;
     if( keyCode == 37 && xFrog >= 24){ //move left
@@ -164,6 +168,7 @@ function drawBoard() {
         alert('Sorry, canvas is not supported. Use another browser.');
     }
 }
+
 //Draws the stats for playler
 function drawStats() {
     ctx.font = "22px Helvetica";
@@ -175,11 +180,13 @@ function drawStats() {
     ctx.font = "12px Helvetica";
     ctx.fillText("Score: " + score, 9, 551);
 }
+
 //Draws frogger
 function drawFrogger(){
     ctx.drawImage(sprite, 13, 371, 22, 18, xFrog, yFrog, 22, 18); //Draws Frogger based on starting coordinates
 }
 
+//Initializes locations and data of sprites (logs, vehicles and lilypads)
 function createSpriteLocations(){
     increment = 33.8;
     logs[0] = {"imageWidth":86, "imageHeight":23, "initX":8, "initY":250-(0*increment), "speed":Math.floor((Math.random()*4)+1)+1};
@@ -193,11 +200,12 @@ function createSpriteLocations(){
     cars[3] = {"imageWidth":28, "imageHeight":23, "initX":4, "initY":454-(3*increment), "speed":(-1)*Math.floor((Math.random()*6)+1)-1};
     cars[4] = {"imageWidth":25, "imageHeight":23, "initX":4, "initY":454-(4*increment), "speed":Math.floor((Math.random()*6)+1)+1};
     for (var i = 0; i < 5; i++){
-        pads[i] = {"imageWidth":22, "imageHeight":18, "initX":16, "initY": 84.4};
+        pads[i] = {"imageWidth":22, "imageHeight":18, "initX":16, "initY": 84.4, "beenLanded":false};
         pads[i].initX = pads[i].initX + (i*44);
     }
 }
 
+//Checks for collisions against water, pads and cars
 function checkCollision(){
     frogSpeed = 0;
     var onLog = false;
@@ -205,6 +213,10 @@ function checkCollision(){
         if(xFrog+frogW >= pads[n].initX+n*44 && xFrog <= pads[n].initX+n*44+pads[n].imageWidth){
             if(yFrog+frogH >= pads[n].initY && yFrog <= pads[n].initY+pads[n].imageHeight){
                 drawSuccess[n] = true;
+                if(pads[n].beenLanded == true){
+                    collideDIE();
+                }
+                pads[n].beenLanded = true;
                 collidePAD();
                 break;
             }
@@ -222,16 +234,18 @@ function checkCollision(){
     for(n in cars){
         if(xFrog+frogW >= cars[n].initX && xFrog <= cars[n].initX+cars[n].imageWidth){
             if(yFrog+frogH >= cars[n].initY && yFrog <= cars[n].initY+cars[n].imageHeight){
-                collideDIE();
+                //collideDIE();
                 break;
             }
         }
     }
     if(yFrog < 253.4 && !onLog){
-        collideDIE();
+        //collideDIE();
     }
 }
 
+//If frogger collides with pad, it is brought home, score increments
+//And possibly a level up if 5 DIFFERENT pads have been landed on
 function collidePAD(){
     var timeScore = Math.round((60000-timer)/10000)*100;
     score = score + 50 + timeScore;
@@ -244,6 +258,8 @@ function collidePAD(){
     timer = 0;
 }
 
+//Once five lily pads have been landed on, speed is increased, plays level up sound
+//Adds score and resets board
 function levelUp(){
     var levelSound = new Audio("assets/dp_frogger_coin.wav");
     levelSound.play();
@@ -262,9 +278,11 @@ function levelUp(){
     cars[4].speed = Math.floor((Math.random()*6)+1)+numLevel*2-numLevel;
     for(var n = 0; n < 5; n++){
         drawSuccess[n] = false;
+        pads[n].beenLanded = false;
     }
 }
 
+//If frogger collides with water or car, lose a life, reset position and play death sound
 function collideDIE(){
     numLives = numLives - 1;
     if(numLives == 0){
