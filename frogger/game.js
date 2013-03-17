@@ -55,6 +55,33 @@ function gameLoop() {
     }
 }
 
+function update(){
+    xFrog += frogSpeed;
+    for(n in logs){
+        logs[n].initX += logs[n].speed;
+        if(logs[n].initX > 399){
+            logs[n].initX = -180;
+            logs[n].speed = Math.floor((Math.random()*4)+1)+numLevel*2-numLevel;
+        }
+        else if (logs[n].initX < -200){
+            logs[n].initX = 398;
+            logs[n].speed = (-1)*Math.floor((Math.random()*4)+1)-numLevel*2+numLevel;
+        }
+    }
+    for(n in cars){
+        cars[n].initX += cars[n].speed;
+        if(cars[n].initX > 396){
+            cars[n].initX = 5;
+            cars[n].speed = Math.floor((Math.random()*6)+1)+numLevel*2-numLevel;
+        }
+        else if (cars[n].initX < -23){
+            cars[n].initX = 395;
+            cars[n].speed = (-1)*Math.floor((Math.random()*4)+1)-numLevel*2+numLevel;
+        }
+    }
+    checkCollision();
+}
+
 //Draws the board, which will go on to call draw functions for stats and frogger itself
 function drawBoard() {
     if(canvas.getContext) {
