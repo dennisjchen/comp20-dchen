@@ -161,6 +161,25 @@ function checkCollision(){
     }
 }
 
+function levelUp(){
+    numLevel = numLevel + 1;
+    successfulPads = 0;
+    score = score + 1000;
+    logs[0].speed = Math.floor((Math.random()*4)+1)+numLevel*2-numLevel;
+    logs[1].speed = (-1)*Math.floor((Math.random()*4)+1)-numLevel*2+numLevel;
+    logs[2].speed = Math.floor((Math.random()*4)+1)+1+numLevel*2-numLevel;
+    logs[3].speed = (-1)*Math.floor((Math.random()*4)+1)-numLevel*2+numLevel;
+    logs[4].speed = Math.floor((Math.random()*4)+1)+numLevel*2-numLevel;
+    cars[0].speed = Math.floor((Math.random()*6)+1)+numLevel*2-numLevel;
+    cars[1].speed = (-1)*Math.floor((Math.random()*6)+1)-numLevel*+numLevel;
+    cars[2].speed = Math.floor((Math.random()*6)+1)+numLevel*-numLevel;
+    cars[3].speed = (-1)*Math.floor((Math.random()*6)+1)-numLevel*2+numLevel;
+    cars[4].speed = Math.floor((Math.random()*6)+1)+numLevel*2-numLevel;
+    for(var n = 0; n < 5; n++){
+        drawSuccess[n] = false;
+    }
+}
+
 function collidePAD(){
     score = score + 50;
     successfulPads = successfulPads + 1;
