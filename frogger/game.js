@@ -1,18 +1,20 @@
 //Global Variables
-var xStart;
-var yStart;
-var numLives;
+var xFrog; var yFrog; var frogW = 22; var frogH = 18; var frogSpeed;
+var numLives = 3;
 var numLevel;
-var score; var highscore;
-var time;
+var score;
+var time; var successfulPads;
 var isOver;
 var vSpeed;
-var vLoc;
-var logSpeed;
-var logLoc;
-var canvas;
-var ctx;
-var sprite;
+var vLoc; var logSpeed; var logLoc;
+var sprite; var lilypad;
+var canvas; var ctx;
+var intervalID;
+var logs = new Array(); var extraLogs = Array();
+var cars = new Array();
+var pads = new Array();
+var drawSuccess = new Array();
+var farthestDistance = 490;
 
 //Function that begins the game
 function start_game() {
@@ -22,8 +24,8 @@ function start_game() {
 
 //Initializes all the global variables
 function initialize(){
-    xStart = 190;
-    yStart = 488;
+    xFrog = 190;
+    yFrog = 488;
     numLives = 3;
     numLevel = 1;
     score = 0; highscore = 0;
