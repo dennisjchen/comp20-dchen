@@ -14,7 +14,7 @@ var cars = new Array();
 var pads = new Array();
 var drawSuccess = new Array();
 var farthestDistance = 490;
-var sound = new Audio();
+var hopSound = new Audio("assets/dp_frogger_hop.wav");
 
 //Initializes all the global variables
 function initialize(){
@@ -85,6 +85,7 @@ function moveFrog(e){
     var keyCode = e.keyCode;
     if( keyCode == 37 && xFrog >= 24){ //move left
         xFrog = xFrog - 29;
+        hopSound.play();
     }
     if( keyCode == 38 && yFrog >= 100){ //move up
         yFrog = yFrog - 33.8;
@@ -95,12 +96,15 @@ function moveFrog(e){
                 farthestDistance = 490;
             }
         }
+        hopSound.play();
     }
     if( keyCode == 39 && xFrog <= 350){//Move right
         xFrog = xFrog + 29;
+        hopSound.play();
     }
     if( keyCode == 40 && yFrog <= 489){ //move down
         yFrog = yFrog + 33.8;
+        hopSound.play();
     }
     if (keyCode == 27){
         isOver = true;
@@ -213,7 +217,7 @@ function checkCollision(){
 }
 
 function collidePAD(){
-    var timeScore = (60000-timer)/100;
+    var timeScore = Math.round((60000-timer)/10000)*100;
     score = score + 50 + timeScore;
     successfulPads = successfulPads + 1;
     if(successfulPads == 5){
