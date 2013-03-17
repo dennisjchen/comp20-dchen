@@ -1,15 +1,22 @@
 //Global Variables
-var xFrog; var yFrog; var frogW = 22; var frogH = 18; var frogSpeed;
+var xFrog; 
+var yFrog; 
+var frogW = 22; 
+var frogH = 18; 
+var frogSpeed;
 var numLives = 3;
 var numLevel;
 var score;
-var time; var successfulPads;
+var time; 
+var successfulPads;
 var timer;
 var isOver;
-var sprite; var lilypad;
-var canvas; var ctx;
+var sprite; 
+var lilypad;
+var canvas; 
+var ctx;
 var intervalID;
-var logs = new Array(); var extraLogs = Array();
+var logs = new Array();
 var cars = new Array();
 var pads = new Array();
 var drawSuccess = new Array();
@@ -17,11 +24,15 @@ var farthestDistance = 490;
 
 //Initializes all the global variables
 function initialize(){
-    xFrog = 190; yFrog = 490; frogSpeed = 0;
+    xFrog = 190; 
+    yFrog = 490; 
+    frogSpeed = 0;
     successfulPads = 0;
     timer = 0;
-    numLevel = 1; score = 0;
-    time = 100; isOver = false;
+    numLevel = 1; 
+    score = 0;
+    time = 100; 
+    isOver = false;
     for(var i = 0;i < 5; i++){
         drawSuccess[i] = false;
     }
@@ -211,13 +222,13 @@ function checkCollision(){
     for(n in cars){
         if(xFrog+frogW >= cars[n].initX && xFrog <= cars[n].initX+cars[n].imageWidth){
             if(yFrog+frogH >= cars[n].initY && yFrog <= cars[n].initY+cars[n].imageHeight){
-                //collideDIE();
+                collideDIE();
                 break;
             }
         }
     }
     if(yFrog < 253.4 && !onLog){
-        //collideDIE();
+        collideDIE();
     }
 }
 
