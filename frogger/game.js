@@ -82,6 +82,32 @@ function update(){
     checkCollision();
 }
 
+function moveFrog(e){
+    var keyCode = e.keyCode;
+    if( keyCode == 37 && xFrog >= 24){ //move left
+        xFrog = xFrog - 29;
+    }
+    if( keyCode == 38 && yFrog >= 100){ //move up
+        yFrog = yFrog - 33.8;
+        if(yFrog < farthestDistance){
+            farthestDistance = yFrog;
+            score = score + 10;
+            if(farthestDistance <= 84.4){
+                farthestDistance = 490;
+            }
+        }
+    }
+    if( keyCode == 39 && xFrog <= 350){//Move right
+        xFrog = xFrog + 29;
+    }
+    if( keyCode == 40 && yFrog <= 489){ //move down
+        yFrog = yFrog + 33.8;
+    }
+    if (keyCode == 27){
+        isOver = true;
+    }
+}
+
 //Draws the board, which will go on to call draw functions for stats and frogger itself
 function drawBoard() {
     if(canvas.getContext) {
