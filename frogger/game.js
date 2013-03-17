@@ -104,6 +104,11 @@ function drawStats() {
     ctx.fillText("Score: " + score, 9, 551);
 }
 
+//Draws frogger
+function drawFrogger(){
+        ctx.drawImage(sprite, 13, 371, 22, 16, xStart, yStart, 22, 16); //Draws Frogger based on starting coordinates
+}
+
 function createSpriteLocations(){
     increment = 33.8;
     logs[0] = {"imageWidth":86, "imageHeight":23, "initX":8, "initY":250-(0*increment), "speed":Math.floor((Math.random()*4)+1)+1};
@@ -156,7 +161,21 @@ function checkCollision(){
     }
 }
 
-//Draws frogger
-function drawFrogger(){
-        ctx.drawImage(sprite, 13, 371, 22, 16, xStart, yStart, 22, 16); //Draws Frogger based on starting coordinates
+function collidePAD(){
+    score = score + 50;
+    successfulPads = successfulPads + 1;
+    if(successfulPads == 5){
+        levelUp();
+    }
+    xFrog = 190;
+    yFrog = 490;
+}
+
+function collideDIE(){
+    numLives = numLives - 1;
+    if(numLives == 0){
+        isOver = true;
+    }
+    xFrog = 190;
+    yFrog = 490;
 }
