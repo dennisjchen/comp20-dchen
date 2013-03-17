@@ -16,12 +16,6 @@ var pads = new Array();
 var drawSuccess = new Array();
 var farthestDistance = 490;
 
-//Function that begins the game
-function start_game() {
-    initialize();
-    drawBoard();
-}
-
 //Initializes all the global variables
 function initialize(){
     xFrog = 190; yFrog = 490; frogSpeed = 0;
@@ -44,6 +38,20 @@ function initialize(){
     sprite.onload = function() {
         var delay = 50;
         intervalID = setInterval(gameLoop, delay);
+    }
+}
+
+function gameLoop() {
+    if(isOver){
+        clearInterval(intervalID);
+    }
+    document.addEventListener("keydown", moveFrog ,false);
+    update();
+    drawBoard();
+    if(isOver){
+        ctx.font = "60px Helvetica";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillText("GAME OVER ", 20, 300);
     }
 }
 
