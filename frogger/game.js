@@ -234,13 +234,13 @@ function checkCollision(){
     for(n in cars){
         if(xFrog+frogW >= cars[n].initX && xFrog <= cars[n].initX+cars[n].imageWidth){
             if(yFrog+frogH >= cars[n].initY && yFrog <= cars[n].initY+cars[n].imageHeight){
-                //collideDIE();
+                collideDIE();
                 break;
             }
         }
     }
     if(yFrog < 253.4 && !onLog){
-        //collideDIE();
+        collideDIE();
     }
 }
 
