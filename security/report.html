@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <link rel="stylesheet" href="screen.css" media="print, screen and (min-device-width: 650px)" />
+    <link rel="stylesheet" href="mobile.css" media="only screen and (max-device-width: 651px)" />
+    <title>Scorecenter Security Analysis</title>
+</head>
+
+<body>
+    <h1 class="normal">Securitiy Analysis: Scorecenter </h1>
+    <h2>Introduction </h2>
+        <p> Students of Ming Chow's Web Programming class have had the pleasure of creating a scorecenter where games can go to post player highscores to keep track of them. With a combination of node, express and mongo, the students have successfully created a server-side web application to display data scores.
+    <h2>Methodology </h2>
+        <p> The scorecenter being tested is at: <a href="http://blooming-wildwood-4625.herokuapp.com/">http://blooming-wildwood-4625.herokuapp.com/</a>, and the source code for the application is there as well. <br/> <br/> To test the application, first I looked at all the pages just to get a good glimpse of how things were. A number of different techniques were used to find security vulnerabilities inside of the code including inputting scripts and SQL injection. After looking at the source code, it looked like there was some information that could be gathered very easily, for example the username and password to the mongohq database. Also, curl was used for posting data </p>
+    <h2>Abstract of Findings </h2>
+        <p>Here are some of the main issues at hand: </p>
+        <ul>
+            <li> Note: Posting scores to the scorecenter has given several errors. See below.
+            <li> Low reliability </li>
+            <li> When a score is submitted, the web application does not check to see if the score is a number and so technically, a user could have score "Hello"</li>
+            <li> No limit on input text </li>
+            <li> Information about where the data is stored is directly in the code.</li>
+            <li> Cannot post from other sites (Cross-Origin Sharing)</li>
+        </ul>
+    <h2>Issues Found </h2>
+        <ol>
+            <li> Scorecenter throws errors when trying to post</li>
+                <ul>
+                    <li> Location: submit.json</li>
+                    <li> Severity of issue: HIGH - When posting some scores, the system throws errors instead of putting the data into the database.</li>
+                    <li> Description: When a user tries to submit a score, if the scorecenter isn't reliable, then the user wouldn't want to ever use the scorecenter! Below are a couple of examples where this happens. Curl did not work and neither did json posting. </li>
+                    <img src="CURLfail.png" alt="Ohno!">
+                    <img src="DBfail.png" alt="nogood" height="400" width="800">
+                    <li> Resolution: The best way to solve this is to test putting in data and checking to see how everything works. The owner of the scorecenter was worked with to see if this problem could be alleviated but it was to no avail. The database was stagnant and only showed things that were previously in it (including grading tests). </li>
+                </ul>
+            <li> No limit on input text </li>
+                <ul>
+                    <li> Location: submit.json </li>
+                    <li> Severity of issue: Medium - There is no limit to what the user can input and so technically, they could put in a very long username to run you out of data </li>
+                    <li> Description: With no limit on characters for what the user can input as a username of game_title, then the user can just post a very long username and that would take up lots of space. </li>
+                    <li> Resolution: Limit the amount of characters a score can post to something more reasonable </li>
+                </ul>
+            <li> Low Reliability</li>
+                <ul>
+                    <li> Location: Entire scorecenter</li>
+                    <li> Severity of issue: Medium - Scorecenter occasionally fails and will not load </li>
+                    <li> Description: Sometimes the scorecenter hangs for a bit and then redirects to an error page where it says the site is down. It will load /usersearch but will not take in any input. It will not load /index. </li>
+                    <img src="mishap1.png" alt="nogood" height="400" width="800">
+                    <img src="mishap.png" alt="nogood" height="400" width="800">
+                    <li> Resolution: This is definitely a problem because if users cannot access the site, then there is no point in having it. And so a possible fix is to look over the code again and see why it is failing sometimes. </li> 
+                </ul>
+            <li> No score input validation </li>
+                <ul>
+                    <li> Location: submit.json</li>
+                    <li> Severity of issue: HIGH - Users can insert what they want into the database including pop ups!</li>
+                    <li> Description: Input from attackers could include or contain script tags that would constantly come up when the scorecenter was loaded. For example, if they used script alert("IM A HACKER!"), a pop with that text would come up. This can be quite annoying.
+                    <li> Resolution: In order to get rid of this worriesome issue, the web application must block against those script tags by sanitizing and/or cleaning the input of html/tags.
+                </ul>
+            <li> Leaking Private Information </li>
+                <ul>
+                    <li> Location: web.js</li>
+                    <li> Severity of issue: HIGH - If anyone gets a hold of web.js there exists a password </li>
+                    <li> Description: If web.js were to be discovered, there is a small part of code that includes a user and password to the database. This then allows attackers to modify and change the data to however they like! </li>
+                    <img src="leakage.png" alt="nogood">
+                    <li> Resolution: Hide the information similar to using "process.env.MONGOHQ_URL". That way, They do not have direct access. </li>
+                </ul>
+            <li> No Cross Origin Sharing</li>
+                <ul>
+                    <li> Location: all </li>
+                    <li> Severity of issue: HIGH - Users cannot post from other sites because CORS is not working properly </li>
+                    <li> Description: If CORS is not enabled, the scorecenter will have trouble and send back errors to games that try to post because it is not successfully allowing them to post. It is not giving access to them. </li>
+                    <img src="CORS.png" alt="nogood" height="400" width="800">
+                    <li> Resolution: Enable CORS by putting in the correct code to allow for POST. This can be done by allowing: "res.header('Access-Control-Allow-Methods', 'POST');" in addition to what the scorecenter currently has. </li>
+                </ul>
+        </ol>
+    <h2>Conclusion </h2>
+        <p>
+            There are a couple of problems with the web application itself before security can be taken into account. The problems include an unreliable web server and the inability to post to the scorecenter. When security is taken into account, the web app is prone to injections as well as infinite character usernames/game_titles. Some recommendations for this web app is to first look into the code itself and check Cross-Origin Sharing and whether or not games can post to it. 
+            <br/>
+            By bribing some CS students with delicious cookies, they could fix this up very quickly! 
+        </p>
+
+</body>
+
+
+</html>
